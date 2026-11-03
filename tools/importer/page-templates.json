@@ -1,0 +1,95 @@
+{
+  "templates": [
+    {
+      "name": "home",
+      "urls": [
+        "https://zollwebstore.com/"
+      ],
+      "representativeUrl": "https://zollwebstore.com/",
+      "description": "ZOLL WebStore homepage: hero image slider, support policy boxes, bestseller and featured product sliders",
+      "blocks": [
+        {
+          "name": "carousel-hero",
+          "instances": [
+            ".section-element.row .home-slider",
+            ".home-slider"
+          ]
+        },
+        {
+          "name": "cards-icon-feature",
+          "instances": [
+            ".policy.home .support-policy"
+          ]
+        },
+        {
+          "name": "cards-product-slider",
+          "instances": [
+            ".home-best-seller .slider-products-grid",
+            ".featured-item-home .slider-products-grid",
+            ".slider-products-grid"
+          ]
+        }
+      ],
+      "urlPattern": "/",
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Hero banner slider",
+          "selector": [
+            ".column.main .section-element.row"
+          ],
+          "style": null,
+          "blocks": [
+            "carousel-hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-2",
+          "name": "Support policy strip",
+          "selector": [
+            ".column.main .policy.home"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-icon-feature"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-3",
+          "name": "Bestseller Products",
+          "selector": [
+            ".home-slider-section .cms-category.section-category:has(.home-best-seller)",
+            ".home-best-seller"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-product-slider"
+          ],
+          "defaultContent": [
+            ".home-best-seller > .slider-grid-title"
+          ]
+        },
+        {
+          "id": "section-4",
+          "name": "Featured Products",
+          "selector": [
+            ".home-slider-section .cms-category.section-category:has(.featured-item-home)",
+            ".featured-item-home"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-product-slider"
+          ],
+          "defaultContent": [
+            ".featured-item-home > .accor-title"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "projectType": "da"
+  }
+}

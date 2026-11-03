@@ -1,0 +1,107 @@
+.carousel-hero {
+  position: relative;
+  color: var(--text-color);
+}
+
+.carousel-hero .carousel-hero-slides-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-hero .carousel-hero-slides,
+.carousel-hero .carousel-hero-indicators {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* slide track, translated by the block JS (slick-style) */
+.carousel-hero .carousel-hero-slides {
+  display: flex;
+  touch-action: pan-y;
+  user-select: none;
+  will-change: transform;
+}
+
+.carousel-hero .carousel-hero-slide {
+  position: relative;
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+/* the source slide image sits in a 14px / 23.1px line box, leaving a constant
+   7.09px strip under it (507.34px tall at 1440, 137.36px at 375) */
+.carousel-hero .carousel-hero-slide-image {
+  padding-bottom: 7.0938px;
+}
+
+.carousel-hero .carousel-hero-slide-image a,
+.carousel-hero .carousel-hero-slide-image picture {
+  display: block;
+}
+
+.carousel-hero .carousel-hero-slide-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  -webkit-user-drag: none;
+}
+
+.carousel-hero .carousel-hero-slide-content {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+}
+
+/* dots: bottom centre, as slick .home-slider .slick-dots (50px box 5px from the
+   bottom; its 15px padding plus line box put the 14px dots 19.5px from its top) */
+.carousel-hero .carousel-hero-indicators {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 5px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 19.5px 0 16.5px;
+}
+
+.carousel-hero .carousel-hero-indicator {
+  position: relative;
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  margin: 0 5px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.carousel-hero .carousel-hero-indicator button {
+  display: block;
+  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+  min-height: auto;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.carousel-hero .carousel-hero-indicator button[aria-current='true'] {
+  border-color: var(--brand-orange);
+  background: var(--brand-orange);
+}
+
+.carousel-hero .carousel-hero-indicator button:focus {
+  outline: 0;
+}
+
+.carousel-hero .carousel-hero-indicator button:focus-visible {
+  outline: 2px solid var(--text-color);
+  outline-offset: 2px;
+}

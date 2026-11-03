@@ -1,26 +1,91 @@
-import { getRootPath, isMultistore } from '@dropins/tools/lib/aem/configs.js';
-// Dropin Components
-import {
-  Button,
-  provider as UI,
-} from '@dropins/tools/components.js';
-
-// Block-level
-import createModal from '../modal/modal.js';
-import { getMetadata } from '../../scripts/aem.js';
-import { loadFragment } from '../fragment/fragment.js';
-
 /**
- * Toggles all storeSelector sections
- * @param {Element} sections The container element
- * @param {Boolean} expanded Whether the element should be expanded or collapsed
+ * Fetches the footer fragment. Tries the local preview path first, then the
+ * site root (DA / EDS). Metadata-independent on purpose.
+ * @returns {Promise<{root: HTMLElement, base: string}|null>}
  */
-function toggleStoreDropdown(sections, expanded = false) {
-  sections
-    .querySelectorAll('.storeview-modal .default-content-wrapper > ul > li')
-    .forEach((section) => {
-      section.setAttribute('aria-expanded', expanded);
-    });
+async function fetchFooterFragment() {
+  let resp = await fetch('/content/footer.plain.html');
+  if (!resp.ok) resp = await fetch('/footer.plain.html');
+  if (!resp.ok) return null;
+  const root = document.createElement('div');
+  root.innerHTML = await resp.text();
+  return { root, base: resp.url };
+}
+
+/** Resolves relative image paths against the fragment URL. */
+function resolveImages(root, base) {
+  root.querySelectorAll('img').forEach((img) => {
+    const src = img.getAttribute('src');
+    if (src && !/^(https?:|data:|\/)/.test(src)) img.src = new URL(src, base).href;
+  });
+}
+
+/** External links open in a new tab, as on the source site. */
+function openInNewTab(scope) {
+  scope.querySelectorAll('a[href^="http"]').forEach((a) => {
+    a.target = '_blank';
+    a.rel = 'noopener';
+  });
+}
+
+/** A column is a section with a heading and a list of links. */
+function buildColumn(section) {
+  const heading = section.querySelector('h1, h2, h3, h4, h5, h6');
+  const list = section.querySelector('ul');
+  const column = document.createElement('div');
+  column.className = 'footer-column';
+  if (heading) {
+    const title = document.createElement('div');
+    title.className = 'footer-column-title';
+    title.textContent = heading.textContent.trim();
+    column.append(title);
+  }
+  if (list) {
+    // a list whose links only contain images is the social icon list
+    const iconOnly = [...list.querySelectorAll('a')].every((a) => a.querySelector('img') && !a.textContent.trim());
+    list.className = iconOnly ? 'footer-social' : 'footer-links';
+    if (iconOnly) {
+      column.classList.add('footer-column-social');
+      list.querySelectorAll('a').forEach((a) => {
+        const img = a.querySelector('img');
+        a.title = img.alt;
+        img.alt = '';
+        a.setAttribute('aria-label', a.title);
+      });
+    }
+    column.append(list);
+  }
+  return column;
+}
+
+/** Bottom row: copyright text + back-to-top control. */
+function buildBottom(section) {
+  const bottom = document.createElement('div');
+  bottom.className = 'footer-bottom';
+  [...section.querySelectorAll('p')].forEach((p) => {
+    const link = p.querySelector('a[href="#"]');
+    if (link) {
+      link.className = 'footer-back-to-top';
+      link.setAttribute('aria-label', link.textContent.trim());
+      link.innerHTML = `<span class="footer-back-to-top-label">${link.textContent.trim()}</span>`;
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      bottom.append(link);
+    } else {
+      // small > span mirrors the source copyright line box
+      const copyright = document.createElement('p');
+      copyright.className = 'footer-copyright';
+      const small = document.createElement('small');
+      const span = document.createElement('span');
+      span.textContent = p.textContent.trim();
+      small.append(span);
+      copyright.append(small);
+      bottom.prepend(copyright);
+    }
+  });
+  return bottom;
 }
 
 /**
@@ -28,145 +93,33 @@ function toggleStoreDropdown(sections, expanded = false) {
  * @param {Element} block The footer block element
  */
 export default async function decorate(block) {
-  const root = getRootPath();
-  // Load Footer as Fragment
-  const footerMeta = getMetadata('footer');
-  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-  const fragment = await loadFragment(footerPath);
-
-  // decorate footer DOM
+  const fragment = await fetchFooterFragment();
   block.textContent = '';
-  const footer = document.createElement('div');
+  if (!fragment) return;
+  const { root, base } = fragment;
+  resolveImages(root, base);
 
-  // Footer content - Store Switcher
-  if (isMultistore()) {
-    footer.innerHTML = `
-      <div class="storeview-switcher-button"></div>
-    `;
+  const main = document.createElement('div');
+  main.className = 'footer-main';
+  let bottom = null;
 
-    // Container and component refs
-    let modal;
-
-    // Modal Actions
-    const showModal = async (content) => {
-      modal = await createModal([content]);
-      modal.showModal();
-    };
-
-    // Rendering the Store Switcher Modal Content
-    const $storeSwitcherBtn = footer.querySelector(
-      '.storeview-switcher-button',
-    );
-
-    // Store Switcher Modal Content
-    const storeSwitcherPath = '/store-switcher';
-    let fragmentStoreView;
-
-    try {
-      fragmentStoreView = await loadFragment(storeSwitcherPath);
-      if (!fragmentStoreView) throw new Error(`Footer does not render due to Store Switcher fragment (${storeSwitcherPath}) not found`);
-    } catch (error) {
-      console.error('Error loading store switcher fragment:', error);
-      return;
+  [...root.children].forEach((section) => {
+    const hasList = section.querySelector('ul');
+    const hasHeading = section.querySelector('h1, h2, h3, h4, h5, h6');
+    if (hasList && hasHeading) {
+      main.append(buildColumn(section));
+    } else if (section.querySelector('img') && !hasList) {
+      const brand = document.createElement('div');
+      brand.className = 'footer-brand';
+      const link = section.querySelector('a') || section.querySelector('img');
+      brand.append(link);
+      main.append(brand);
+    } else if (section.querySelector('p')) {
+      bottom = buildBottom(section);
     }
+  });
 
-    // Store Switcher Modal Content
-    const storeSwitcher = document.createElement('div');
-
-    // Return Storename from stores-switcher
-    const selected = [...fragmentStoreView.querySelectorAll('a')].find((a) => {
-      const url = new URL(a.href);
-      return url.pathname.startsWith(root);
-    });
-
-    storeSwitcher.id = 'storeview-modal';
-    while (fragmentStoreView.firstElementChild) {
-      storeSwitcher.append(fragmentStoreView.firstElementChild);
-    }
-
-    // create classes for storeview modal sections
-    const classes = ['storeview-title', 'storeview-list'];
-    classes.forEach((c, i) => {
-      const section = storeSwitcher.children[i];
-      if (section) section.classList.add(`storeview-modal-${c}`);
-    });
-
-    // Store Switcher Modal Content - Store View Title
-    const storeViewTitle = storeSwitcher.querySelector('.storeview-modal-storeview-title');
-    const title = storeViewTitle.querySelector('h3');
-    if (title) {
-      title.className = '';
-      title.closest('h3').classList.add('storeview-modal-storeview-title');
-      title.setAttribute('tabindex', '0');
-    }
-
-    // Storeview List
-    const storeViewList = storeSwitcher.querySelector('.storeview-modal-storeview-list');
-
-    if (storeViewList && storeViewList.children.length) {
-      // Add storeview-selection class to parent UL
-      storeViewList
-        .querySelectorAll(':scope .default-content-wrapper > ul')
-        .forEach((storeView) => {
-          if (storeView.querySelector('ul')) storeView.classList.add('storeview-selection');
-        });
-
-      // if multiple stores exist per region, add class storeviews and click events for accordion
-      storeViewList.querySelectorAll('.default-content-wrapper > ul > li > ul').forEach((storeRegion) => {
-        if (storeRegion.children.length > 1) {
-          if (storeRegion.querySelector('ul')) storeRegion.classList.add('storeviews');
-
-          // Accessiblity: addeventlistener for 'click' and keyboard event and tab indexes
-          storeViewList.querySelectorAll(':scope li').forEach((storeView) => {
-            const link = storeView.closest('a');
-            if (link) link.setAttribute('tabindex', '0');
-            storeView.addEventListener('keydown', (e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                const expanded = storeView.getAttribute('aria-expanded') === 'true';
-                toggleStoreDropdown(storeViewList);
-                storeView.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-              }
-            });
-            storeView.addEventListener('click', () => {
-              const expanded = storeView.getAttribute('aria-expanded') === 'true';
-              toggleStoreDropdown(storeViewList);
-              storeView.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-            });
-          });
-        }
-      });
-
-      // If only one storeview link in region, convert parent UL into the li and remove the child UL
-      storeViewList.querySelectorAll('.default-content-wrapper > ul > li > ul').forEach((storeRegion) => {
-        const li = storeRegion.closest('li');
-
-        if (storeRegion.children.length <= 1) {
-          li.classList.add('storeview-single-store');
-          const ulParent = li.closest('ul');
-          const replacedChild = (storeRegion.firstElementChild);
-          replacedChild.className = 'storeview-single-store';
-
-          ulParent.replaceChild(replacedChild, li);
-          ulParent.setAttribute('tabindex', '0');
-        } else {
-          li.classList.add('storeview-multiple-stores');
-          li.setAttribute('tabindex', '0');
-        }
-      });
-
-      UI.render(Button, {
-        children: `${selected.text}`,
-        'data-testid': 'storeview-switcher-button',
-        className: 'storeview-switcher-button',
-        size: 'medium',
-        variant: 'teritary',
-        onClick: () => {
-          showModal(storeSwitcher);
-        },
-      })($storeSwitcherBtn);
-    }
-  }
-  while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
-
-  block.append(footer);
+  openInNewTab(main);
+  block.append(main);
+  if (bottom) block.append(bottom);
 }

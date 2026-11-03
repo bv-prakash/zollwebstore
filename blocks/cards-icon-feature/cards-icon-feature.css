@@ -1,0 +1,156 @@
+/* icon font used by the source strip (same file the header uses) */
+@font-face {
+  font-family: IcoMoon-Free;
+  src: url('../../fonts/icomoon-free.woff') format('woff');
+  font-display: block;
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* source: .policy.home .support-policy (max-width 1700px incl. 20px gutters) */
+.cards-icon-feature {
+  max-width: 1660px;
+  margin: 0 auto;
+}
+
+.cards-icon-feature > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+.cards-icon-feature .cards-icon-feature-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 25px 20px;
+  background-color: #e6e4e4;
+}
+
+.cards-icon-feature .cards-icon-feature-icon {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.cards-icon-feature .cards-icon-feature-icon img {
+  width: 60px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* font-glyph icon (source .col-icon::before) */
+.cards-icon-feature .cards-icon-feature-glyph {
+  font-family: IcoMoon-Free, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 14px;
+}
+
+.cards-icon-feature .cards-icon-feature-glyph::before {
+  font-size: 60px;
+  line-height: 1;
+  color: var(--brand-blue);
+}
+
+.cards-icon-feature .cards-icon-feature-glyph-box {
+  margin-left: -20px;
+}
+
+.cards-icon-feature .cards-icon-feature-glyph-box::before {
+  content: '\e937';
+}
+
+.cards-icon-feature .cards-icon-feature-glyph-user-profile::before {
+  content: '\e939';
+}
+
+.cards-icon-feature .cards-icon-feature-glyph-cursor::before {
+  content: '\e938';
+}
+
+.cards-icon-feature .cards-icon-feature-body {
+  flex: 0 1 auto;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 23.1px;
+}
+
+/*
+ * description: the source sets 16px/16px (21px/21px desktop) text inside a
+ * 14px/23.1px line box, so lines are 23.1px (25.09px) apart and the glyphs sit
+ * 1px (2px) higher than plain centred leading; the margin shift reproduces that
+ * without changing the box height.
+ */
+.cards-icon-feature .cards-icon-feature-body > * {
+  margin: -1px 0 1px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23.1px;
+  color: #54565a;
+}
+
+.cards-icon-feature .cards-icon-feature-body > .cards-icon-feature-title {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--brand-blue);
+}
+
+.cards-icon-feature .cards-icon-feature-title :is(strong, b) {
+  font-weight: 700;
+}
+
+.cards-icon-feature .cards-icon-feature-title a:any-link,
+.cards-icon-feature .cards-icon-feature-title a:hover {
+  color: var(--brand-blue);
+  text-decoration: none;
+}
+
+/* whole-box link: stretch the single body link over the card */
+.cards-icon-feature .cards-icon-feature-linked a[href]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+@media (min-width: 900px) {
+  .cards-icon-feature > ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .cards-icon-feature > ul {
+    gap: 50px;
+  }
+
+  .cards-icon-feature .cards-icon-feature-card {
+    gap: 25px;
+    padding: 32px 30px;
+  }
+
+  .cards-icon-feature .cards-icon-feature-glyph::before {
+    font-size: 88px;
+  }
+
+  .cards-icon-feature .cards-icon-feature-icon img {
+    width: 88px;
+  }
+
+  .cards-icon-feature .cards-icon-feature-body > * {
+    margin: -2px 0 2px;
+    font-size: 21px;
+    line-height: 25.09px;
+  }
+
+  .cards-icon-feature .cards-icon-feature-body > .cards-icon-feature-title {
+    font-size: 26px;
+    line-height: 1.1;
+  }
+}

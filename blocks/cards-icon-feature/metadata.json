@@ -1,0 +1,25 @@
+{
+  "variantName": "cards-icon-feature",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "purpose": "Strip of icon + title + short text service boxes on light grey (#ececec), 3 across on desktop",
+    "description": "Three light-grey (#ececec) boxes in a row, each with an icon on the left and a title plus short description on the right; stacks on mobile."
+  },
+  "contentPattern": {
+    "structure": "one row per box; cell 1 = icon image, cell 2 = bold title or heading followed by a description paragraph; a single link in cell 2 makes the whole box clickable",
+    "rows": [
+      {
+        "row": "each box",
+        "cells": [
+          "Icon image",
+          "Title (bold or heading) + description; a single link makes the whole box clickable"
+        ]
+      }
+    ]
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "usage": "Service / policy strip (Free Shipping, Customer Service, Register).",
+  "reuseGuidance": "Use for short icon + title + text feature or benefit items. For image-on-top content cards use cards."
+}

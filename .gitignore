@@ -17,3 +17,10 @@ scripts/__dropins__/**/*.map
 !AGENTS.md
 
 .scout/
+migration-work/navigation-validation/
+migration-work/footer-validation/
+
+# import tooling byproducts (source-page snapshot, generated bundle, reports)
+tools/importer/bd-snapshots/
+tools/importer/reports/
+tools/importer/*.bundle.js

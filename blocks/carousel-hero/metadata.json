@@ -1,0 +1,25 @@
+{
+  "variantName": "carousel-hero",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "purpose": "Full-width rotating hero banner of linked, image-only slides with dot navigation",
+    "description": "Full-width image-only hero slider: 5 linked slides with text baked into the images, dot indicators overlaid at the bottom centre, autoplay."
+  },
+  "contentPattern": {
+    "structure": "one row per slide; cell 1 = slide image linked to its target (link may wrap the image or sit next to it), cell 2 = optional overlay text (usually empty, text is baked into the image)",
+    "rows": [
+      {
+        "row": "each slide",
+        "cells": [
+          "Image (mandatory), linked to the slide target (link wrapping the image or a link in the row)",
+          "Text content (optional; usually empty because text is in the image)"
+        ]
+      }
+    ]
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "usage": "Home page hero banner rotating promotional images.",
+  "reuseGuidance": "Use for image-only rotating banners where each slide is one linked image. For slides with authored overlay text use carousel."
+}

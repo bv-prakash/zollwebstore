@@ -1,0 +1,46 @@
+/* ZOLL WebStore brand tokens (extracted from https://zollwebstore.com/) */
+:root {
+  /* fonts */
+  --body-font-family: soleil, soleil-fallback, sans-serif;
+  --heading-font-family: soleil, soleil-fallback, sans-serif;
+
+  /* colors */
+  --background-color: #fff;
+  --text-color: #333;
+  --link-color: #333;
+  --link-hover-color: #006bb4;
+  --brand-blue: #0675cd;
+  --brand-blue-dark: #006ab1;
+  --brand-light-blue: #96d3e8;
+  --brand-cyan: #b3f1ff;
+  --brand-green: #84bd00;
+  --brand-orange: #ea7319;
+  --light-color: #ececec;
+  --dark-color: #333;
+
+  /* body text */
+  --body-font-size: 14px;
+  --body-line-height: 23.1px;
+
+  /* section headings (mobile first) */
+  --heading-color: var(--brand-blue);
+  --heading-font-size-xxl: 22px;
+  --heading-font-size-xl: 22px;
+  --heading-font-size-l: 22px;
+  --heading-margin-bottom: 50px;
+  --heading-accent-top: 42px;
+
+  /* layout */
+  --section-gap: 70px;
+  --content-gutter: 20px;
+}
+
+@media (min-width: 900px) {
+  :root {
+    --heading-font-size-xxl: 30px;
+    --heading-font-size-xl: 30px;
+    --heading-font-size-l: 30px;
+    --heading-margin-bottom: 90px;
+    --heading-accent-top: 50px;
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "variantName": "cards-product-slider",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "purpose": "Horizontal slider of authored product cards with prev/next arrows, 4 visible on desktop, 3 on tablet, 2 on mobile",
+    "description": "Horizontal product slider with prev/next arrows: product image on top, linked product name (single line, ellipsis), optional item number and price; 4 cards visible on desktop, 3 on tablet, 2 on mobile."
+  },
+  "contentPattern": {
+    "structure": "one row per product; cell 1 = product image, cell 2 = product name linked to the product page, optional \"Item Number: <sku>\" paragraph, optional price paragraph",
+    "rows": [
+      {
+        "row": "each product",
+        "cells": [
+          "Product image",
+          "Product name linked to the product page; optional \"Item Number: <sku>\" paragraph; optional price paragraph"
+        ]
+      }
+    ]
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "usage": "Bestseller Products and Featured Products rows on the home page.",
+  "reuseGuidance": "Use for static, authored lists of products that link to product pages. For live catalog-driven lists use product-recommendations or product-list-page."
+}
