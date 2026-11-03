@@ -132,7 +132,7 @@
 }
 
 /* header bar + breadcrumb strip: 70 + 31px on mobile, 85 + 31px on desktop */
-@media (min-width: 900px) {
+@media (min-width: 992px) {
   :root {
     --nav-height: 11.6rem;
   }
@@ -478,8 +478,9 @@ main > .section {
   display: none;
 }
 
+/* content is centred at max 1400px with a 20px gutter, as on the source */
 main > .section > div {
-  max-width: none;
+  max-width: 1400px;
   margin: auto;
   padding: 0 var(--content-gutter);
 }
@@ -490,7 +491,13 @@ main > .section:first-of-type {
 
 /* the hero slider is full bleed */
 main > .section.carousel-hero-container > div {
+  max-width: none;
   padding: 0;
+}
+
+/* the support-policy strip is wider on the source (max 1660px) */
+main > .section.cards-icon-feature-container > div {
+  max-width: 1660px;
 }
 
 /* section headings (e.g. "Bestseller Products") with the short green accent bar */

@@ -148,6 +148,7 @@ footer .footer-bottom {
 }
 
 footer .footer-copyright {
+  min-height: 24px;
   font-size: 14px;
   line-height: 23.1px;
   color: #fff;
@@ -206,45 +207,37 @@ footer .footer-back-to-top-label {
   right: 40px !important;
 }
 
-/* ================= desktop ================= */
+/* ================= wider screens (breakpoints follow the source) ================= */
 
-@media (min-width: 900px) {
-  footer .footer {
-    padding: 33px 40px;
+@media (min-width: 768px) {
+  footer .footer-bottom {
+    padding-left: 19vw;
   }
+}
 
+/* columns side by side from 769px; logo and columns share the row, logo capped at 157px */
+@media (min-width: 769px) {
   footer .footer-main {
     flex-direction: row;
     gap: 30px;
     padding-bottom: 25px;
   }
 
-  footer .footer-brand {
-    flex: 0 0 157px;
-    margin-bottom: 0;
-  }
-
-  footer .footer-brand img {
-    width: 157px;
-    height: 47px;
-    margin-bottom: 0;
-  }
-
+  footer .footer-brand,
   footer .footer-column {
     flex: 1 1 0;
     min-width: 0;
   }
 
-  footer .footer-column-title {
-    margin-bottom: 20px;
-    padding-bottom: 25px;
-    font-size: 32px;
-    line-height: 32px;
+  footer .footer-brand {
+    max-width: 157px;
   }
 
-  footer .footer-links a:any-link {
-    font-size: 16px;
-    line-height: 40px;
+  footer .footer-brand img {
+    width: 100%;
+    max-width: 157px;
+    height: auto;
+    margin-bottom: 0;
   }
 
   /* social icons: stacked, one per row */
@@ -258,12 +251,54 @@ footer .footer-back-to-top-label {
     margin-top: 25px;
   }
 
+  /* compact rows (icon height + 8px) until 1200px, as on the source */
   footer .footer-social a:any-link {
     align-items: flex-start;
-    height: 40px;
+    height: auto;
+    padding-bottom: 8px;
   }
 
-  /* first and last rows are 41px on the source */
+  footer .footer-bottom {
+    margin-top: 0;
+  }
+
+  footer .footer-copyright span {
+    font-size: 16px;
+    line-height: 26.4px;
+  }
+
+  footer .footer-back-to-top,
+  footer .footer-back-to-top:any-link {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  footer .footer-bottom {
+    padding-left: 16vw;
+  }
+}
+
+/* large headings and links from 1200px */
+@media (min-width: 1200px) {
+  footer .footer-column-title {
+    margin-bottom: 20px;
+    padding-bottom: 25px;
+    font-size: 32px;
+    line-height: 32px;
+  }
+
+  footer .footer-links a:any-link {
+    font-size: 16px;
+    line-height: 40px;
+  }
+
+  /* 40px social rows (41px first/last) from 1200px */
+  footer .footer-social a:any-link {
+    height: 40px;
+    padding-bottom: 0;
+  }
+
   footer .footer-social li:first-child a:any-link,
   footer .footer-social li:last-child a:any-link {
     height: 41px;
@@ -282,19 +317,11 @@ footer .footer-back-to-top-label {
   footer .footer-social li:nth-child(5) img {
     margin-top: -1px;
   }
+}
 
-  footer .footer-bottom {
-    margin-top: 0;
-    padding-left: 16vw;
-  }
-
-  footer .footer-copyright span {
-    font-size: 16px;
-    line-height: 26.4px;
-  }
-
-  footer .footer-back-to-top,
-  footer .footer-back-to-top:any-link {
-    display: block;
+/* 40px gutters from 1440px */
+@media (min-width: 1440px) {
+  footer .footer {
+    padding: 33px 40px;
   }
 }

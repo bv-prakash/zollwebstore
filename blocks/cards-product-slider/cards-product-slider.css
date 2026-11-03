@@ -19,7 +19,7 @@
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: calc(100% / var(--cards-product-slider-visible));
-  align-items: start;
+  align-items: stretch;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -32,7 +32,10 @@
   user-select: none;
 }
 
+/* cards in a row share one height; text + buttons sit at the bottom so buttons line up, as on the source */
 .cards-product-slider .cards-product-slider-card {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   margin: 0;
   padding: 0 var(--cards-product-slider-card-gutter);
@@ -63,6 +66,9 @@
 }
 
 .cards-product-slider .cards-product-slider-card-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
   padding-bottom: var(--cards-product-slider-actions-space);
 }
 
@@ -71,6 +77,7 @@
 }
 
 .cards-product-slider .cards-product-slider-card-title {
+  margin-top: auto;
   overflow: hidden;
   font-size: 15px;
   font-weight: 600;
@@ -263,12 +270,7 @@
   }
 }
 
-@media (min-width: 900px) {
-  .cards-product-slider {
-    --cards-product-slider-visible: 4;
-    --cards-product-slider-actions-space: 131px;
-  }
-
+@media (min-width: 768px) {
   .cards-product-slider .cards-product-slider-card-title {
     font-size: 18px;
   }
@@ -277,6 +279,21 @@
     font-size: 18px;
   }
 
+  /* featured images are full width only below 768px */
+  .cards-product-slider.featured .cards-product-slider-card-image img {
+    width: 220px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cards-product-slider {
+    --cards-product-slider-visible: 4;
+    --cards-product-slider-actions-space: 131px;
+  }
+}
+
+/* larger store buttons from 1200px */
+@media (min-width: 1200px) {
   .cards-product-slider .cards-product-slider-card-actions {
     gap: 15px;
   }
@@ -288,13 +305,9 @@
     font-size: 20px;
     line-height: 30px;
   }
-
-  .cards-product-slider.featured .cards-product-slider-card-image img {
-    width: 220px;
-  }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1440px) {
   .cards-product-slider {
     --cards-product-slider-card-gutter: 15px;
   }

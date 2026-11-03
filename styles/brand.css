@@ -35,7 +35,7 @@
   --content-gutter: 20px;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1024px) {
   :root {
     --heading-font-size-xxl: 30px;
     --heading-font-size-xl: 30px;

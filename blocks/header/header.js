@@ -1,5 +1,5 @@
 // media query match that indicates desktop width
-const isDesktop = window.matchMedia('(min-width: 900px)');
+const isDesktop = window.matchMedia('(min-width: 992px)');
 
 /**
  * Fetches the nav fragment. Tries the local preview path first, then the
