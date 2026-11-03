@@ -177,6 +177,10 @@ header {
 
 main {
   grid-row: 2;
+
+  /* the source leaves 90px above the footer: 70px section gap + 20px here
+     (padding, not a last-section margin: published pages end with a hidden metadata section) */
+  padding-bottom: 20px;
 }
 
 footer {
@@ -482,11 +486,6 @@ main > .section > div {
 
 main > .section:first-of-type {
   margin-top: 0;
-}
-
-/* the source leaves 90px (30px slider + 60px section margin) above the footer */
-main > .section:last-of-type {
-  margin-bottom: 90px;
 }
 
 /* the hero slider is full bleed */
