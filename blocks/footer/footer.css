@@ -325,3 +325,10 @@ footer .footer-back-to-top-label {
     padding: 33px 40px;
   }
 }
+
+/* wide screens: 130px between logo and columns, as on the source */
+@media (min-width: 1490px) {
+  footer .footer-main {
+    gap: 130px;
+  }
+}
