@@ -163,7 +163,8 @@ function buildPanel(li) {
       [...a.childNodes].forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
       const media = document.createElement('span');
       media.className = 'nav-card-image';
-      media.append(img);
+      // keep the optimised <picture> (published fragments) when there is one
+      media.append(img.closest('picture') || img);
       a.append(media, label);
     });
   } else {
@@ -419,6 +420,8 @@ export default async function decorate(block) {
   if (!fragment) return;
   const { root, base } = fragment;
   resolveImages(root, base);
+  // published fragments wrap list item content in <p>; unwrap so both shapes build the same menu
+  root.querySelectorAll('li > p').forEach((p) => p.replaceWith(...p.childNodes));
 
   const sections = [...root.children];
   const [
